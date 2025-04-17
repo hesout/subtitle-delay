@@ -1,4 +1,6 @@
 import datetime
+import sys
+import os
 
 
 def get_sec(time_str):
@@ -28,7 +30,7 @@ def subs_delay(file_name, delay_time):
 
     t_stamps = []
     try:
-        with open(file_name, 'r', encoding='UTF-8') as f:
+        with open(file_name, 'r', encoding='ISO-8859-1') as f:
             # getting a nested list of all occurance of time-stamps along with it's position index
             t_stamps = [list(i) for i in list(enumerate(f)) if ' --> ' in i[1]]
     except FileNotFoundError as er:
@@ -58,7 +60,7 @@ def subs_delay(file_name, delay_time):
         string = string.replace('.', ',')
         each[1] = string
 
-    with open(file_name, 'r+', encoding='UTF-8') as f:
+    with open(file_name, 'r+', encoding='ISO-8859-1') as f:
         lines = f.readlines()
         for line in t_stamps:
             lines[line[0]] = line[1]
@@ -66,3 +68,38 @@ def subs_delay(file_name, delay_time):
         f.writelines(lines)
 
     return 0
+
+
+def print_output(output):
+    if output == 0:
+        print(f'Subtitles delayed successfully.')
+    else:
+        print('Error in delaying subtitles.')
+
+
+def main():
+    if len(sys.argv) != 3:
+        print('Usage: python main.py <srt file> <delay (in sec)>')
+        quit()
+    file_name = sys.argv[1]
+    delay_time = sys.argv[2]
+
+    if file_name == '.':
+        for each_file in sorted(os.listdir()):
+            if each_file.endswith('.srt'):
+                output = subs_delay(each_file, delay_time)
+                print_output(output)
+                break
+
+    elif file_name == '*':
+        for each_file in sorted(os.listdir()):
+            if each_file.endswith('.srt'):
+                output = subs_delay(each_file, delay_time)
+                print_output(output)
+    else:
+        output = subs_delay(file_name, delay_time)
+        print_output(output)
+
+
+if __name__ == '__main__':
+    main()

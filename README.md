@@ -2,6 +2,13 @@
 
 A program written in Python that directly edits SRT file to delay the subtitles.
 
+Adapted for compatibility with subtitles in **Pt-BR**.
+
+## What Changed:
+
++ Read/Write encodings replaced with **ISO 8859-1** (Latin-1) to allow proper handling of special characters in *Portuguese* subtitles.
++ Combined files into `delay.py` for easier use.
+
 ## Features:
 
 1. Will throw an error if delaying with negative number pushes the initial time-stamp out of bounds.
@@ -10,14 +17,14 @@ A program written in Python that directly edits SRT file to delay the subtitles.
 ## Installation:
 
 ```
-git clone https://github.com/CodePleaseRun/subtitle-delay.git
+git clone https://github.com/hesout/subtitle-delay.git
 cd subtitle-delay
 ```
 
 ## Usage:
 
 ```Python
-python main.py srt_file_name delay_time
+python delay.py srt_file_name delay_time
 ```
 
 - `srt_file_name` must end with `.srt` extension
@@ -29,17 +36,17 @@ python main.py srt_file_name delay_time
 1.  Delaying subtitles in `subtitle.srt` by `3` seconds.
 
 ```Python
-python main.py subtitle.srt 3
+python delay.py subtitle.srt 3
 ```
 
 2.  Delaying subtitles in the first `.srt` file in the directory ordered lexicographically by `-2` seconds.
 
 ```Python
-python main.py . -2
+python delay.py . -2
 ```
 
 1.  Delaying the subtitles in all `.srt` files in current directory by `1.754` seconds.
 
 ```Python
-python main.py * 1.754
+python delay.py * 1.754
 ```
